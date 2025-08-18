@@ -1,0 +1,81 @@
+# .NET Core Backend
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.docstates
+*.userprefs
+*.pidb
+*.booproj
+*.swp
+*~
+*.tmp
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.dotCover
+TestResult.xml
+[Tt]est[Rr]esult*/
+*.Cache
+ClientBin/
+[Ss]tyle[Cc]op.*
+~$*
+*.dbmdl
+Generated_Code/
+.vs/
+.vscode/
+*.pubxml
+*.publishproj
+App_Data/
+
+# Angular Frontend
+node_modules/
+dist/
+tmp/
+out-tsc/
+bazel-out/
+.angular/
+.sass-cache/
+connect.lock
+coverage/
+libpeerconnection.log
+testem.log
+typings/
+.nx/cache
+
+# Angular build artifacts
+frontend/dist/
+frontend/.angular/
+frontend/node_modules/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+appsettings.Development.json
+appsettings.Local.json
+
+# IDE files
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock

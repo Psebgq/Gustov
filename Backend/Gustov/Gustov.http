@@ -1,0 +1,6 @@
+@Gustov_HostAddress = http://localhost:5167
+
+GET {{Gustov_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
