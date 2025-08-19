@@ -29,6 +29,7 @@ namespace Gustov.Infrastructure.DTOs
         public bool IsActive { get; set; }
         public DateOnly CreatedAt { get; set; }
         public DateOnly UpdatedAt { get; set; }
+        public string? CategoryName { get; set; }
     }
 
     public class CreateProductDto
