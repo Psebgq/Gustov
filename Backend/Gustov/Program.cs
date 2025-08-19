@@ -1,5 +1,10 @@
-var builder = WebApplication.CreateBuilder(args);
+using Gustov.Application;
+using Gustov.Infrastructure;
 
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.RegisterDb(builder.Configuration);
+builder.Services.RegisterRepositories();
+builder.Services.RegisterServices();
 // Add services to the container.
 
 builder.Services.AddControllers();

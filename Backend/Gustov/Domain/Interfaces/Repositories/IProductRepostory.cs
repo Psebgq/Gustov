@@ -2,11 +2,10 @@
 
 namespace Gustov.Domain.Interfaces.Repositories
 {
-    public interface IProductRepostory
+    public interface IProductRepository
     {
         Task<Product> Create(Product product);
         Task<List<Product>> FindAll();
         Task<Product> Update(Product product);
-        Task SaveChanges();
     }
 }

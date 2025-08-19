@@ -7,6 +7,5 @@ namespace Gustov.Domain.Interfaces.Repositories
         Task<Category> Create(Category category);
         Task<List<Category>> FindAll();
         Task<Category> Update(Category category);
-        Task SaveChanges();
     }
 }
