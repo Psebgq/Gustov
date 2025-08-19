@@ -1,12 +1,10 @@
 using Gustov.Application;
 using Gustov.Infrastructure;
-using Gustov.Infrastructure.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.RegisterDb(builder.Configuration);
 builder.Services.RegisterRepositories();
 builder.Services.RegisterServices();
-builder.Services.AddAutoMapper(typeof(MappingProfile));
 // Add services to the container.
 
 builder.Services.AddControllers();
