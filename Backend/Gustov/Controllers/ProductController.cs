@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Gustov.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/product")]
     public class ProductController : ControllerBase
     {
         private readonly ProductService _productService;

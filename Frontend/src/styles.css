@@ -1,1 +1,27 @@
+@import 'ngx-toastr/toastr';
 /* You can add global styles to this file, and also import other style files */
+.toast-container {
+  .ngx-toastr {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .toast-success {
+    background-color: #4CAF50;
+  }
+
+  .toast-error {
+    background-color: #f44336;
+  }
+
+  .toast-info {
+    background-color: #2196F3;
+  }
+
+  .toast-warning {
+    background-color: #ff9800;
+  }
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
