@@ -1,0 +1,280 @@
+<div class="dialog-container">
+  <!-- Header -->
+  <div class="dialog-header">
+    <h2 mat-dialog-title class="dialog-title">
+      <mat-icon class="title-icon">edit</mat-icon>
+      {{ data.title }}
+    </h2>
+    <button 
+      mat-icon-button 
+      class="close-button"
+      (click)="onCancel()"
+      [disabled]="isLoading">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div mat-dialog-content class="dialog-content">
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+      
+      <!-- Imagen del Producto -->
+      <div class="image-section">
+        <h4 class="section-title">
+          <mat-icon>image</mat-icon>
+          Imagen del Producto
+        </h4>
+        
+        <!-- Preview de imagen actual/nueva -->
+        <div class="image-preview-container" *ngIf="hasImage">
+          <div class="image-preview" [class.new-image]="!!imagePreview" [class.current-image]="!imagePreview">
+            <img [src]="displayImage" [alt]="productForm.value.name || 'Producto'" class="preview-image">
+            <div class="image-overlay" *ngIf="imagePreview">
+              <button 
+                type="button"
+                mat-icon-button 
+                class="remove-image-btn"
+                (click)="removeSelectedImage()"
+                matTooltip="Remover imagen nueva">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+            
+            <!-- Badge de estado -->
+            <div class="image-badge" [class.new-badge]="!!imagePreview" [class.current-badge]="!imagePreview">
+              <mat-icon>{{ imagePreview ? 'new_releases' : 'image' }}</mat-icon>
+              <span>{{ imagePreview ? 'Nueva' : 'Actual' }}</span>
+            </div>
+          </div>
+          
+          <div class="image-info">
+            <p class="image-status">{{ imageStatus }}</p>
+            <p class="file-info" *ngIf="selectedFile">{{ getFileInfo() }}</p>
+          </div>
+        </div>
+
+        <!-- Placeholder cuando no hay imagen -->
+        <div class="no-image-placeholder" *ngIf="!hasImage">
+          <mat-icon class="placeholder-icon">image_not_supported</mat-icon>
+          <p class="placeholder-text">Sin imagen</p>
+        </div>
+
+        <!-- Input de carga de archivo -->
+        <div class="file-upload-container" [class.has-image]="hasImage">
+          <input 
+            type="file" 
+            #fileInput
+            id="imageInput"
+            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+            (change)="onFileSelected($event)"
+            style="display: none;">
+          
+          <button 
+            type="button"
+            mat-stroked-button 
+            color="primary"
+            class="upload-button"
+            (click)="fileInput.click()"
+            [disabled]="isLoading">
+            <mat-icon>{{ hasImage ? 'edit' : 'cloud_upload' }}</mat-icon>
+            <span>{{ hasImage ? 'Cambiar Imagen' : 'Seleccionar Imagen' }}</span>
+          </button>
+          
+          <!-- Botón para remover imagen actual -->
+          <button 
+            type="button"
+            mat-stroked-button 
+            color="warn"
+            class="remove-current-btn"
+            *ngIf="currentImageUrl && !imagePreview"
+            (click)="removeSelectedImage()"
+            [disabled]="isLoading">
+            <mat-icon>delete</mat-icon>
+            <span>Remover Actual</span>
+          </button>
+          
+          <div class="upload-info">
+            <small>
+              <mat-icon class="info-icon">info</mat-icon>
+              Formatos: JPG, PNG, GIF, WebP • Tamaño máx: 5MB
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <mat-divider class="section-divider"></mat-divider>
+      
+      <!-- Información del Producto -->
+      <div class="product-info-section">
+        <h4 class="section-title">
+          <mat-icon>inventory</mat-icon>
+          Información del Producto
+        </h4>
+
+        <!-- Nombre del Producto -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre del Producto</mat-label>
+          <input 
+            matInput 
+            formControlName="name"
+            placeholder="Ingresa el nombre del producto"
+            [class.error]="isFieldInvalid('name')">
+          <mat-icon matSuffix color="primary">label</mat-icon>
+          <mat-error *ngIf="isFieldInvalid('name')">
+            {{ getErrorMessage('name') }}
+          </mat-error>
+          <mat-hint>Mínimo 2 caracteres, máximo 100</mat-hint>
+        </mat-form-field>
+
+        <!-- Categoría -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Categoría</mat-label>
+          <mat-select 
+            formControlName="categoryId"
+            [disabled]="isLoadingCategories"
+            [class.error]="isFieldInvalid('categoryId')">
+            
+            <mat-option *ngIf="isLoadingCategories" disabled>
+              <div class="loading-option">
+                <mat-spinner diameter="20"></mat-spinner>
+                <span>Cargando categorías...</span>
+              </div>
+            </mat-option>
+            
+            <mat-option 
+              *ngFor="let category of categories" 
+              [value]="category.id"
+              [disabled]="!category.isActive">
+              <div class="category-option">
+                <span class="category-name">{{ category.name }}</span>
+              </div>
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix color="primary">category</mat-icon>
+          <mat-error *ngIf="isFieldInvalid('categoryId')">
+            {{ getErrorMessage('categoryId') }}
+          </mat-error>
+          <mat-hint>Solo categorías activas disponibles</mat-hint>
+        </mat-form-field>
+
+        <!-- Descripción -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Descripción</mat-label>
+          <textarea 
+            matInput 
+            formControlName="description"
+            placeholder="Describe el producto detalladamente"
+            rows="4"
+            [class.error]="isFieldInvalid('description')">
+          </textarea>
+          <mat-icon matSuffix color="primary">description</mat-icon>
+          <mat-error *ngIf="isFieldInvalid('description')">
+            {{ getErrorMessage('description') }}
+          </mat-error>
+          <mat-hint>Mínimo 10 caracteres, máximo 500</mat-hint>
+        </mat-form-field>
+
+        <!-- Precio y Orden (en la misma fila) -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Precio</mat-label>
+            <input 
+              matInput 
+              type="number"
+              formControlName="price"
+              placeholder="0.00"
+              step="0.01"
+              min="0.01"
+              [class.error]="isFieldInvalid('price')">
+            <span matTextPrefix>Bs. </span>
+            <mat-icon matSuffix color="primary">attach_money</mat-icon>
+            <mat-error *ngIf="isFieldInvalid('price')">
+              {{ getErrorMessage('price') }}
+            </mat-error>
+            <mat-hint>Precio en Bolivianos</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Orden de Visualización</mat-label>
+            <input 
+              matInput 
+              type="number"
+              formControlName="sortOrder"
+              placeholder="1"
+              min="1"
+              step="1"
+              [class.error]="isFieldInvalid('sortOrder')">
+            <mat-icon matSuffix color="primary">sort</mat-icon>
+            <mat-error *ngIf="isFieldInvalid('sortOrder')">
+              {{ getErrorMessage('sortOrder') }}
+            </mat-error>
+            <mat-hint>Orden en el catálogo</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- Estado Activo -->
+        <div class="checkbox-container">
+          <mat-checkbox formControlName="isActive" color="primary" class="status-checkbox">
+            <div class="checkbox-content">
+              <span class="checkbox-label">
+                <mat-icon class="status-icon">{{ productForm.value.isActive ? 'visibility' : 'visibility_off' }}</mat-icon>
+                Producto Activo
+              </span>
+              <span class="checkbox-description">
+                {{ productForm.value.isActive ? 
+                   'El producto será visible en el catálogo' : 
+                   'El producto estará oculto del catálogo' }}
+              </span>
+            </div>
+          </mat-checkbox>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="loading-content">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p class="loading-text">{{ submitButtonText }}</p>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div mat-dialog-actions class="dialog-actions">
+    <div class="actions-info" *ngIf="selectedFile && !isLoading">
+      <mat-icon class="info-icon">info</mat-icon>
+      <span>{{ data.operation === 'create' ? 'Se creará el producto con esta imagen' : 'Se actualizará con nueva imagen' }}</span>
+    </div>
+    
+    <div class="actions-buttons">
+      <button 
+        mat-stroked-button 
+        type="button"
+        (click)="onCancel()"
+        [disabled]="isLoading"
+        class="cancel-button">
+        <mat-icon>close</mat-icon>
+        Cancelar
+      </button>
+      
+      <button 
+        mat-raised-button 
+        color="primary"
+        type="submit"
+        (click)="onSubmit()"
+        [disabled]="!canSubmit"
+        class="save-button">
+        
+        <mat-spinner 
+          *ngIf="isLoading" 
+          diameter="20" 
+          class="button-spinner">
+        </mat-spinner>
+        
+        <mat-icon *ngIf="!isLoading">save</mat-icon>
+        <span>{{ submitButtonText }}</span>
+      </button>
+    </div>
+  </div>
+</div>

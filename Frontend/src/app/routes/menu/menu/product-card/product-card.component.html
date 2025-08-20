@@ -1,0 +1,47 @@
+<mat-card class="product-card">
+  <!-- Product Image Section -->
+  <div class="product-image-container">
+    @if (imageUrl != null) {
+        <img 
+        [src]="imageUrl" 
+        [alt]="product.name"
+        class="product-image"
+        (error)="onImageError($event)"
+        loading="lazy">
+    }
+    
+    <div *ngIf="imageError" class="image-error">
+      <mat-icon class="error-icon">image_not_supported</mat-icon>
+      <span class="error-text">Imagen no disponible</span>
+    </div>
+    
+    <div class="price-badge">
+      {{ formattedPrice }}
+    </div>
+  </div>
+  
+  <mat-card-content class="product-content">
+    <h3 class="product-name">{{ product.name }}</h3>
+    <p class="product-description">{{ product.description }}</p>
+  </mat-card-content>
+  
+  <mat-card-actions class="product-actions">
+    <button 
+      mat-raised-button 
+      color="primary" 
+      class="add-button" 
+      (click)="onAddToOrder()"
+      [disabled]="!product.isActive">
+      <mat-icon>add_shopping_cart</mat-icon>
+      <span>Agregar</span>
+    </button>
+    <button
+    mat-icon-button
+    #tooltip="matTooltip"
+    matTooltip="Eliminar Producto"
+    class="edit-button"
+    (click)="showOptions('edit', product)">
+        <mat-icon>edit</mat-icon>
+    </button>
+  </mat-card-actions>
+</mat-card>

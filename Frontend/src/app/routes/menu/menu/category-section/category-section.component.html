@@ -1,0 +1,40 @@
+<mat-card class="category-section">
+  <mat-card-header class="category-header">
+    <mat-card-title class="category-title">
+      <span class="category-name">{{ category.name }}</span>
+      <div class="header-actions">
+        <mat-chip class="product-count" *ngIf="!isLoadingProducts">{{ products.length }} productos</mat-chip>
+        <mat-chip class="loading-chip" *ngIf="isLoadingProducts">Cargando...</mat-chip>
+      </div>
+    </mat-card-title>
+    <mat-card-subtitle *ngIf="category.description" class="category-description">
+      {{ category.description }}
+    </mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-divider></mat-divider>
+  
+  <mat-card-content class="category-content">
+    <!-- Loading Products -->
+    <div *ngIf="isLoadingProducts" class="products-loading">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Cargando productos de {{ category.name }}...</p>
+    </div>
+
+    <div *ngIf="!isLoadingProducts && products.length > 0" class="products-grid">
+      <app-product-card 
+        *ngFor="let product of products; trackBy: trackByProduct"
+        [product]="product"
+        class="product-card-wrapper"
+        (productUpdated)="onProductUpdated($event)">
+      </app-product-card>
+    </div>
+    
+    <!-- No Products Message -->
+    <div *ngIf="!isLoadingProducts && products.length === 0" class="no-products">
+      <mat-icon class="no-products-icon">info</mat-icon>
+      <h4>Sin productos disponibles</h4>
+      <p>No hay productos disponibles en la categoría "{{ category.name }}" en este momento.</p>
+    </div>
+  </mat-card-content>
+</mat-card>
