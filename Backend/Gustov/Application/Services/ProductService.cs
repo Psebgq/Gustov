@@ -17,7 +17,7 @@ namespace Gustov.Application.Services
             _logger = logger;
         }
 
-        public async Task<List<ProductDto>> GetAllProductsAsync()
+        public async Task<List<ProductDto>> FindAll()
         {
             _logger.LogInformation("Obteniendo todos los productos");
 
@@ -28,7 +28,21 @@ namespace Gustov.Application.Services
             return productsDto;
         }
 
-        public async Task<ProductDto> CreateProductAsync(CreateProductDto createProductDto)
+        public async Task<List<ProductDto>> FindByCategory(int categoryId)
+        {
+            var products = await _productRepository.FindByCategory(categoryId);
+            var res = ProductMapper.ToDto(products);
+            return res;
+        }
+
+        public async Task<ProductDto> FindOne(int productId)
+        {
+            var product = await _productRepository.FindOne(productId);
+            var res = ProductMapper.ToDto(product);
+            return res;
+        }
+
+        public async Task<ProductDto> Create(CreateProductDto createProductDto)
         {
             _logger.LogInformation("Creando nuevo producto: {ProductName}", createProductDto.Name);
 
@@ -41,7 +55,7 @@ namespace Gustov.Application.Services
             return productDto;
         }
 
-        public async Task<ProductDto> UpdateProductAsync(int id, UpdateProductDto updateProductDto)
+        public async Task<ProductDto> Update(int id, UpdateProductDto updateProductDto)
         {
             _logger.LogInformation("Actualizando producto con ID: {ProductId}", id);
 

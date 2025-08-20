@@ -6,6 +6,8 @@ namespace Gustov.Domain.Interfaces.Repositories
     {
         Task<Product> Create(Product product);
         Task<List<Product>> FindAll();
+        Task<Product?> FindOne(int productId);
+        Task<List<Product>> FindByCategory(int id);
         Task<Product> Update(Product product);
     }
 }

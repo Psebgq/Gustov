@@ -46,6 +46,50 @@ namespace Gustov.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<Product?> FindOne(int productId)
+        {
+            return await _dbContext.Products
+                .Where(p => p.Id == productId)
+                .OrderBy(p => p.SortOrder)
+                .ThenBy(p => p.Name)
+                .Select(p => new Product
+                {
+                    Id = p.Id,
+                    CategoryId = p.CategoryId,
+                    Name = p.Name,
+                    SortOrder = p.SortOrder,
+                    Description = p.Description,
+                    Price = p.Price,
+                    Image = p.Image,
+                    IsActive = p.IsActive,
+                    CreatedAt = p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Product>> FindByCategory(int categoryId)
+        {
+            return await _dbContext.Products
+                .Where(p => p.IsActive && p.CategoryId == categoryId)
+                .OrderBy(p => p.SortOrder)
+                .ThenBy(p => p.Name)
+                .Select(p => new Product
+                {
+                    Id = p.Id,
+                    CategoryId = p.CategoryId,
+                    Name = p.Name,
+                    SortOrder = p.SortOrder,
+                    Description = p.Description,
+                    Price = p.Price,
+                    Image = p.Image,
+                    IsActive = p.IsActive,
+                    CreatedAt = p.CreatedAt,
+                    UpdatedAt = p.UpdatedAt
+                })
+                .ToListAsync();
+        }
+
         public async Task<Product> Update(Product product)
         {
             product.UpdatedAt = DateOnly.FromDateTime(DateTime.UtcNow);

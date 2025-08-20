@@ -1,0 +1,54 @@
+<div class="menu-container">
+  <div class="menu-header" *ngIf="!isLoading && categories.length > 0">
+    <div class="menu-title-section">
+      <h1 class="menu-title">
+        <mat-icon class="menu-icon">restaurant_menu</mat-icon>
+        Menú de Productos
+      </h1>
+      <p class="menu-subtitle">Gestiona el catálogo de productos por categorías</p>
+    </div>
+    
+    <div class="menu-actions">
+      <button 
+        mat-icon-button 
+        color="primary" 
+        class="add-product-fab"
+        (click)="addProduct()"
+        matTooltip="Añadir nuevo producto"
+        matTooltipPosition="below">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Cargando categorías...</p>
+  </div>
+
+  <div *ngIf="!isLoading && categories.length > 0" class="menu-content">
+    <app-category-section 
+      *ngFor="let category of categories; trackBy: trackByCategory"
+      [category]="category">
+    </app-category-section>
+  </div>
+
+  <div *ngIf="!isLoading && categories.length === 0" class="no-data">
+    <mat-card>
+      <mat-card-content>
+        <mat-icon class="no-data-icon">restaurant</mat-icon>
+        <h3>No hay categorías disponibles</h3>
+        <p>No se encontraron categorías disponibles en el menú.</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<button 
+    mat-fab 
+    color="primary" 
+    class="floating-add-button"
+    (click)="addProduct()"
+    *ngIf="!isLoading && categories.length > 0"
+    matTooltip="Añadir producto">
+    <mat-icon>add</mat-icon>
+  </button>
