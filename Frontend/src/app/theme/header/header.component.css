@@ -1,13 +1,18 @@
-/* Header del restaurante Gustov */
 .restaurant-header {
   background-color: #d32f2f !important;
   color: white !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  justify-content: center;
   position: relative;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 16px !important;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
-/* Branding centrado */
 .restaurant-branding {
   display: flex;
   align-items: center;
@@ -29,7 +34,10 @@
   letter-spacing: 1px;
 }
 
-/* Responsive */
+.spacer {
+  flex: 1 1 auto;
+}
+
 @media (max-width: 768px) {
   .restaurant-branding {
     font-size: 1.3em;

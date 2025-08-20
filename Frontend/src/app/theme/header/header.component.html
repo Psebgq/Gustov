@@ -1,6 +1,28 @@
 <mat-toolbar class="restaurant-header">
   <div class="restaurant-branding">
     <mat-icon class="restaurant-icon">restaurant</mat-icon>
-    <span class="restaurant-name">{{ restaurantName }}</span>
+    <span 
+      class="restaurant-name"
+      (click)="goHome()">
+      {{ restaurantName }}
+    </span>
+  </div>
+  
+  <div class="spacer"></div>
+  
+  <div class="header-actions">
+    <!-- Cart Button -->
+    <button 
+      mat-icon-button 
+      class="cart-button"
+      (click)="goToSale()"
+      [matBadge]="totalItems$ | async"
+      [matBadgeHidden]="(totalItems$ | async) === 0"
+      matBadgeColor="accent"
+      matBadgeSize="medium"
+      matTooltip="Ir a ventas"
+      matTooltipPosition="below">
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
   </div>
 </mat-toolbar>

@@ -19,6 +19,8 @@ namespace Gustov.Infrastructure
         {
             collection.AddTransient<IProductRepository, ProductRepository>();
             collection.AddTransient<ICategoryRepository, CategoryRepository>();
+            collection.AddTransient<IOrderItemRepository, OrderItemRepository>();
+            collection.AddTransient<ISaleRepository, SaleRepository>();
             return collection;
         }
     }
