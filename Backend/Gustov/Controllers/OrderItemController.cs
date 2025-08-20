@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Gustov.Controllers
 {
     [ApiController]
-    [Route("api/orderitem")]
+    [Route("api/order-item")]
     public class OrderItemController : ControllerBase
     {
         private readonly OrderItemService _orderItemService;
@@ -83,28 +83,6 @@ namespace Gustov.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al crear item de orden");
-                return StatusCode(500, "Error interno del servidor");
-            }
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateOrderItemDto updateOrderItemDto)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                var orderItem = await _orderItemService.Update(id, updateOrderItemDto);
-                return Ok(orderItem);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al actualizar item de orden {Id}", id);
                 return StatusCode(500, "Error interno del servidor");
             }
         }

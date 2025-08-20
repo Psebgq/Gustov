@@ -1,0 +1,80 @@
+<mat-card class="product-card">
+  <div class="card-content">
+    <!-- Product Image -->
+    <div class="image-container">
+      <img 
+        *ngIf="!imageError" 
+        [src]="imageUrl" 
+        [alt]="cartItem.product.name"
+        (error)="onImageError($event)"
+        class="product-image"
+      />
+      <div *ngIf="imageError" class="image-placeholder">
+        <mat-icon>image_not_supported</mat-icon>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+      <h3 class="product-name">{{ cartItem.product.name }}</h3>
+      <p class="product-description">{{ cartItem.product.description }}</p>
+      <div class="price-info">
+        <span class="unit-price">{{ formattedUnitPrice }} c/u</span>
+      </div>
+    </div>
+
+    <!-- Quantity Controls -->
+    <div class="quantity-controls">
+      <div class="quantity-section">
+        <label>Cantidad:</label>
+        <div class="quantity-input-group">
+          <button 
+            mat-icon-button 
+            (click)="onDecreaseQuantity()"
+            [disabled]="cartItem.quantity <= 1"
+          >
+            <mat-icon>remove</mat-icon>
+          </button>
+          
+          <mat-form-field appearance="outline" class="quantity-input">
+            <input 
+              matInput 
+              type="number" 
+              [value]="cartItem.quantity"
+              (blur)="onQuantityInputChange($event)"
+              (keyup.enter)="onQuantityInputChange($event)"
+              min="1"
+              [max]="maxQuantity"
+            />
+          </mat-form-field>
+          
+          <button 
+            mat-icon-button 
+            (click)="onIncreaseQuantity()"
+            [disabled]="cartItem.quantity >= maxQuantity"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Subtotal -->
+      <div class="subtotal-section">
+        <span class="subtotal-label">Subtotal:</span>
+        <span class="subtotal-amount">{{ formattedSubtotal }}</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="card-actions">
+      <button 
+        mat-icon-button 
+        color="warn" 
+        (click)="onRemove()"
+        matTooltip="Eliminar producto"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-card>

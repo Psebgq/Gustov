@@ -12,9 +12,9 @@ import { ToastrService } from 'ngx-toastr';
 
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { ProductOptionComponent } from '../product-option/product-option.component';
-import { Category } from '../../../../shared/models/category.model';
+import { Category } from '../../../../core/interfaces/category.interface';
 import { ProductService } from '../../../../core/services/product.service';
-import { Product } from '../../../../shared/models/product.model';
+import { Product } from '../../../../core/interfaces/product.interface';
 
 @Component({
   selector: 'app-category-section',

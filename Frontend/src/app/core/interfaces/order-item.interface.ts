@@ -13,7 +13,6 @@ export interface OrderItem {
 }
 
 export interface CreateOrderItem {
-  saleId: number;
   categoryId: number;
   name: string;
   quantity: number;

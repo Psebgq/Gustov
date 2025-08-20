@@ -67,26 +67,5 @@ namespace Gustov.Application.Services
 
             return orderItemDto;
         }
-
-        public async Task<OrderItemDto> Update(int id, UpdateOrderItemDto updateOrderItemDto)
-        {
-            _logger.LogInformation("Actualizando item de orden con ID: {OrderItemId}", id);
-
-            if (id <= 0)
-            {
-                _logger.LogWarning("ID de item de orden inválido: {OrderItemId}", id);
-                throw new ArgumentException("El ID debe ser mayor a 0", nameof(id));
-            }
-
-            var orderItem = OrderItemMapper.ToEntity(updateOrderItemDto);
-            orderItem.Id = id;
-
-            var updatedOrderItem = await _orderItemRepository.Update(orderItem);
-            var orderItemDto = OrderItemMapper.ToDto(updatedOrderItem);
-
-            _logger.LogInformation("Item de orden actualizado exitosamente con ID: {OrderItemId}", id);
-
-            return orderItemDto;
-        }
     }
 }

@@ -18,7 +18,17 @@ namespace Gustov.Infrastructure.Repositories
         {
             sale.CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
 
-            var result = await _dbContext.Sales.AddAsync(sale);
+            var saleToCreate = new Sale
+            {
+                SubTotal = sale.SubTotal,
+                TipAmount = sale.TipAmount,
+                Total = sale.Total,
+                CashRecieved = sale.CashRecieved,
+                CashChange = sale.CashChange,
+                CreatedAt = sale.CreatedAt
+            };
+
+            var result = await _dbContext.Sales.AddAsync(saleToCreate);
             await _dbContext.SaveChangesAsync();
             return result.Entity;
         }

@@ -71,27 +71,5 @@ namespace Gustov.Controllers
                 return StatusCode(500, "Error interno del servidor");
             }
         }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateSaleDto updateSaleDto)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-
-                var sale = await _saleService.Update(id, updateSaleDto);
-                return Ok(sale);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al actualizar venta {Id}", id);
-                return StatusCode(500, "Error interno del servidor");
-            }
-        }
     }
 }

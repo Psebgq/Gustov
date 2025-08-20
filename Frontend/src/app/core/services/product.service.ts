@@ -1,8 +1,7 @@
-// src/app/core/services/product.service.ts
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Product, CreateProduct, UpdateProduct } from '../../shared/models/product.model';
+import { Product, CreateProduct, UpdateProduct } from '../interfaces/product.interface';
 
 @Injectable({
   providedIn: 'root'

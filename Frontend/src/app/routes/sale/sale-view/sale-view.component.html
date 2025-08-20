@@ -1,1 +1,125 @@
-<p>sale-view works!</p>
+<div class="sale-view-container">
+  <!-- Header -->
+  <mat-card class="header-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>shopping_cart</mat-icon>
+        Carrito de Ventas
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ totalItems }} producto{{ totalItems !== 1 ? 's' : '' }} - {{ formattedTotal }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+      <button mat-raised-button color="warn" (click)="onClearCart()" [disabled]="isEmpty">
+        <mat-icon>clear_all</mat-icon>
+        Vaciar Carrito
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <div class="content-container">
+    <!-- Products List -->
+    <div class="products-section">
+      <mat-card class="products-card">
+        <mat-card-header>
+          <mat-card-title>Productos</mat-card-title>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <div *ngIf="isEmpty" class="empty-cart">
+            <mat-icon>shopping_cart</mat-icon>
+            <h3>El carrito está vacío</h3>
+            <p>Agrega productos desde el menú para comenzar una venta</p>
+          </div>
+
+          <div *ngIf="!isEmpty" class="products-list">
+            <app-product-card
+              *ngFor="let item of cartItems; trackBy: trackByItemId"
+              [cartItem]="item"
+              (quantityChanged)="onQuantityChange($event.itemId, $event.quantity)"
+              (removeItem)="onRemoveItem($event)"
+            ></app-product-card>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Summary Section -->
+    <div class="summary-section">
+      <mat-card class="summary-card">
+        <mat-card-header>
+          <mat-card-title>Resumen de Venta</mat-card-title>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span class="amount">{{ formattedSubtotal }}</span>
+          </div>
+          
+          <!-- Tip Amount Input -->
+          <div class="input-row">
+            <mat-form-field appearance="outline" class="tip-input">
+              <mat-label>Propina (BOB)</mat-label>
+              <input 
+                matInput 
+                type="number" 
+                [(ngModel)]="tipAmount"
+                (ngModelChange)="onTipAmountChange()"
+                min="0"
+                step="0.01"
+                placeholder="0.00"
+              />
+              <mat-icon matSuffix>volunteer_activism</mat-icon>
+            </mat-form-field>
+          </div>
+          
+          <mat-divider></mat-divider>
+          
+          <div class="summary-row total-row">
+            <span><strong>Total:</strong></span>
+            <span class="amount"><strong>{{ formattedTotal }}</strong></span>
+          </div>
+          
+          <mat-divider></mat-divider>
+          
+          <!-- Cash Received Input -->
+          <div class="input-row">
+            <mat-form-field appearance="outline" class="cash-input">
+              <mat-label>Efectivo Recibido (BOB)</mat-label>
+              <input 
+                matInput 
+                type="number" 
+                [(ngModel)]="cashReceived"
+                (ngModelChange)="onCashReceivedChange()"
+                min="0"
+                step="0.01"
+                placeholder="0.00"
+              />
+              <mat-icon matSuffix>payments</mat-icon>
+            </mat-form-field>
+          </div>
+          
+          <div class="summary-row" [class.change-negative]="cashChange < 0">
+            <span>Cambio:</span>
+            <span class="amount" [class.negative]="cashChange < 0">{{ formattedCashChange }}</span>
+          </div>
+        </mat-card-content>
+        
+        <mat-card-actions>
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="onProcessSale()"
+            [disabled]="!canProcessSale"
+          >
+            <mat-icon *ngIf="!isProcessingSale">point_of_sale</mat-icon>
+            <mat-icon *ngIf="isProcessingSale" class="spinner">refresh</mat-icon>
+            {{ isProcessingSale ? 'Procesando...' : 'Procesar Venta' }}
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

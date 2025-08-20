@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { ToastrService } from 'ngx-toastr';
-import { Product } from '../../../../shared/models/product.model';
+import { Product } from '../../../../core/interfaces/product.interface';
 import { environment } from '../../../../../environments/environment';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';

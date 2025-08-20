@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { CategorySectionComponent } from './category-section/category-section.component';
 import { CategoryService } from '../../../core/services/category.service';
-import { Category } from '../../../shared/models/category.model';
+import { Category } from '../../../core/interfaces/category.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductOptionComponent } from './product-option/product-option.component';
 import { MatButtonModule } from "@angular/material/button";
