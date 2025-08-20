@@ -8,6 +8,8 @@ namespace Gustov.Application
         {
             collection.AddTransient<CategoryService>();
             collection.AddTransient<ProductService>();
+            collection.AddTransient<OrderItemService>();
+            collection.AddTransient<SaleService>();
             return collection;
         }
     }

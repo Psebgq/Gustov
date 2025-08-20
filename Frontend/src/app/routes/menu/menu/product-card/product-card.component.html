@@ -1,4 +1,5 @@
-<mat-card class="product-card">
+<!-- src/app/routes/menu/menu/product-card/product-card.component.html -->
+<mat-card class="product-card" [class.in-cart]="isInCart">
   <!-- Product Image Section -->
   <div class="product-image-container">
     @if (imageUrl != null) {
@@ -18,6 +19,12 @@
     <div class="price-badge">
       {{ formattedPrice }}
     </div>
+
+    <!-- Cart indicator -->
+    <div class="cart-indicator" *ngIf="isInCart">
+      <mat-icon>shopping_cart</mat-icon>
+      <span>{{ quantityInCart }}</span>
+    </div>
   </div>
   
   <mat-card-content class="product-content">
@@ -30,17 +37,18 @@
       mat-raised-button 
       color="primary" 
       class="add-button" 
+      [class.in-cart]="isInCart"
       (click)="onAddToOrder()"
       [disabled]="!product.isActive">
-      <mat-icon>add_shopping_cart</mat-icon>
-      <span>Agregar</span>
+      <mat-icon>{{ isInCart ? 'add_shopping_cart' : 'add_shopping_cart' }}</mat-icon>
+      <span>{{ addButtonText }}</span>
     </button>
     <button
-    mat-icon-button
-    #tooltip="matTooltip"
-    matTooltip="Eliminar Producto"
-    class="edit-button"
-    (click)="showOptions('edit', product)">
+      mat-icon-button
+      #tooltip="matTooltip"
+      matTooltip="Editar Producto"
+      class="edit-button"
+      (click)="showOptions('edit', product)">
         <mat-icon>edit</mat-icon>
     </button>
   </mat-card-actions>

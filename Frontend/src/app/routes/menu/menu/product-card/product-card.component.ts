@@ -10,6 +10,7 @@ import { environment } from '../../../../../environments/environment';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductOptionComponent } from '../product-option/product-option.component';
+import { CartService } from '../../../../shared/services/cart.service';
 
 const Operations = {
   EDIT: 'edit',
@@ -38,7 +39,10 @@ export class ProductCardComponent {
   
   baseUrl = environment.baseUrl;
   imageUrl: string | null = null;
+
   private readonly toastrService = inject(ToastrService);
+  private readonly cartService = inject(CartService);
+
 
   constructor(
     private dialog: MatDialog
@@ -59,8 +63,23 @@ export class ProductCardComponent {
   }
 
   onAddToOrder(): void {
-    this.toastrService.success(`${this.product.name} agregado al carrito`, 'Producto agregado');
-    console.log('Agregar al carrito:', this.product);
+    if (!this.product.isActive) {
+      this.toastrService.warning('Este producto no está disponible', 'Producto no disponible');
+      return;
+    }
+
+    try {
+      this.cartService.addProduct(this.product, 1);
+      
+      const currentQuantity = this.cartService.getProductQuantity(this.product.id);
+      this.toastrService.success(
+        `${this.product.name} agregado al carrito (${currentQuantity})`, 
+        'Producto agregado'
+      );
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      this.toastrService.error('Error al agregar el producto al carrito', 'Error');
+    }
   }
 
   onViewDetails(): void {
@@ -98,5 +117,21 @@ export class ProductCardComponent {
       currency: 'BOB',
       minimumFractionDigits: 2
     }).format(this.product.price);
+  }
+
+  get isInCart(): boolean {
+    return this.cartService.hasProduct(this.product.id);
+  }
+
+  get quantityInCart(): number {
+    return this.cartService.getProductQuantity(this.product.id);
+  }
+
+  get addButtonText(): string {
+    if (this.isInCart) {
+      return `Añadir (${this.quantityInCart})`;
+    } else {
+      return 'Añadir al carrito';
+    }
   }
 }
