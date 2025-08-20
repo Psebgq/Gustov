@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from './storage.service';
 import { CartItem } from '../../shared/models/cart.model';
-import { Product } from '../models/product.model';
+import { Product } from '../../core/interfaces/product.interface';
 
 @Injectable({
   providedIn: 'root'

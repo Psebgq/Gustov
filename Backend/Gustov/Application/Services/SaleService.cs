@@ -1,4 +1,5 @@
 ﻿using Gustov.Application.Mappers;
+using Gustov.Domain.Entities;
 using Gustov.Domain.Interfaces.Repositories;
 using Gustov.Infrastructure.DTOs;
 
@@ -50,54 +51,38 @@ namespace Gustov.Application.Services
         {
             _logger.LogInformation("Creando nueva venta con total: {Total}", createSaleDto.Total);
 
-            var sale = SaleMapper.ToEntity(createSaleDto);
-            var createdSale = await _saleRepository.Create(sale);
+            var sale = new Sale
+            {
+                SubTotal = createSaleDto.SubTotal,
+                TipAmount = createSaleDto.TipAmount,
+                Total = createSaleDto.Total,
+                CashRecieved = createSaleDto.CashRecieved,
+                CashChange = createSaleDto.CashChange
+            };
 
+            var createdSale = await _saleRepository.Create(sale);
+            List<OrderItem> orderItems = [];
             if (createSaleDto.OrderItems?.Any() == true)
             {
+                _logger.LogInformation("Creando {Count} items para la venta {SaleId}",
+                    createSaleDto.OrderItems.Count, createdSale.Id);
+
                 foreach (var orderItemDto in createSaleDto.OrderItems)
                 {
                     var orderItem = OrderItemMapper.ToEntity(orderItemDto);
                     orderItem.SaleId = createdSale.Id;
-                    await _orderItemRepository.Create(orderItem);
+                    orderItem.CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
+                    orderItem.UpdatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
+                    orderItems.Add(orderItem);
                 }
 
                 createdSale = await _saleRepository.FindOne(createdSale.Id) ?? createdSale;
             }
-
+            await _orderItemRepository.CreateRange(orderItems);
             var saleDto = SaleMapper.ToDto(createdSale);
 
-            _logger.LogInformation("Venta creada exitosamente con ID: {SaleId}", createdSale.Id);
-
-            return saleDto;
-        }
-
-        public async Task<SaleDto> Update(int id, UpdateSaleDto updateSaleDto)
-        {
-            _logger.LogInformation("Actualizando venta con ID: {SaleId}", id);
-
-            if (id <= 0)
-            {
-                _logger.LogWarning("ID de venta inválido: {SaleId}", id);
-                throw new ArgumentException("El ID debe ser mayor a 0", nameof(id));
-            }
-
-            var sale = SaleMapper.ToEntity(updateSaleDto);
-            sale.Id = id;
-
-            var updatedSale = await _saleRepository.Update(sale);
-
-            // Actualizar los items de la orden si existen
-            if (updateSaleDto.OrderItems?.Any() == true)
-            {
-                // Nota: Aquí podrías implementar lógica más compleja para
-                // manejar la actualización, eliminación e inserción de items
-                _logger.LogInformation("Actualizando {Count} items de la venta", updateSaleDto.OrderItems.Count);
-            }
-
-            var saleDto = SaleMapper.ToDto(updatedSale);
-
-            _logger.LogInformation("Venta actualizada exitosamente con ID: {SaleId}", id);
+            _logger.LogInformation("Venta creada exitosamente con ID: {SaleId} y {ItemCount} items",
+                createdSale.Id, createdSale.OrderItems?.Count ?? 0);
 
             return saleDto;
         }

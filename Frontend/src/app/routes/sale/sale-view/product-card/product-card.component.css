@@ -1,0 +1,351 @@
+.product-card {
+  margin-bottom: 16px;
+  transition: box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.card-content {
+  display: grid;
+  grid-template-columns: 80px 1fr auto auto;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+}
+
+/* Image Section */
+.image-container {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: #e9ecef;
+  color: #6c757d;
+}
+
+.image-placeholder mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+/* Product Info */
+.product-info {
+  min-width: 0;
+}
+
+.product-name {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-description {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #6c757d;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.price-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.unit-price {
+  font-size: 14px;
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Quantity Controls */
+.quantity-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 140px;
+}
+
+.quantity-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.quantity-section label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quantity-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background: #fff;
+  overflow: hidden;
+  height: 36px;
+}
+
+.quantity-input-group button {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+}
+
+.quantity-input-group button:first-child {
+  border-right: 1px solid #dee2e6;
+}
+
+.quantity-input-group button:last-child {
+  border-left: 1px solid #dee2e6;
+}
+
+.quantity-input-group button:hover:not(:disabled) {
+  background: #f8f9fa;
+}
+
+.quantity-input-group button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity-input-group button mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.quantity-input {
+  width: 60px;
+  flex: 0 0 60px;
+}
+
+.quantity-input ::ng-deep .mat-mdc-form-field-wrapper {
+  padding: 0;
+  height: 36px;
+}
+
+.quantity-input ::ng-deep .mat-mdc-form-field-flex {
+  height: 36px;
+  align-items: center;
+  padding: 0;
+}
+
+.quantity-input ::ng-deep .mat-mdc-form-field-outline {
+  display: none;
+}
+
+.quantity-input ::ng-deep .mat-mdc-form-field-infix {
+  padding: 0;
+  border: none;
+  min-height: 36px;
+}
+
+.quantity-input ::ng-deep input {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 4px;
+  border: none;
+  background: transparent;
+  height: 36px;
+  box-sizing: border-box;
+  line-height: 1;
+  /* Ocultar flechas de input number */
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+.quantity-input ::ng-deep input::-webkit-outer-spin-button,
+.quantity-input ::ng-deep input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.quantity-input ::ng-deep input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.quantity-input ::ng-deep input:focus {
+  outline: none;
+  background: #f8f9fa;
+}
+
+.quantity-input ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+/* Subtotal Section */
+.subtotal-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.subtotal-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.subtotal-amount {
+  font-size: 16px;
+  font-weight: 700;
+  color: #27ae60;
+}
+
+/* Actions */
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-actions button {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+}
+
+.card-actions button mat-icon {
+  font-size: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card-content {
+    grid-template-columns: 60px 1fr auto;
+    gap: 12px;
+  }
+
+  .image-container {
+    width: 60px;
+    height: 60px;
+  }
+
+  .product-name {
+    font-size: 15px;
+  }
+
+  .product-description {
+    font-size: 13px;
+  }
+
+  .quantity-controls {
+    min-width: 120px;
+    gap: 8px;
+  }
+
+  .subtotal-amount {
+    font-size: 15px;
+  }
+
+  .card-actions {
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-top: 8px;
+    border-top: 1px solid #dee2e6;
+    padding-top: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-content {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .image-container {
+    justify-self: center;
+    width: 80px;
+    height: 80px;
+  }
+
+  .product-info {
+    order: 2;
+  }
+
+  .quantity-controls {
+    order: 3;
+    min-width: auto;
+    width: 100%;
+  }
+
+  .quantity-section {
+    width: 100%;
+  }
+
+  .quantity-input-group {
+    justify-content: center;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .subtotal-section {
+    order: 4;
+    width: 100%;
+  }
+
+  .card-actions {
+    order: 5;
+    border-top: 1px solid #dee2e6;
+    padding-top: 12px;
+    margin-top: 8px;
+  }
+
+  .product-name,
+  .product-description {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: initial;
+  }
+}

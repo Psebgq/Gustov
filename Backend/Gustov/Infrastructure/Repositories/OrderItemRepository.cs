@@ -24,6 +24,12 @@ namespace Gustov.Infrastructure.Repositories
             return result.Entity;
         }
 
+        public async Task CreateRange(List<OrderItem> orderItems)
+        {
+            await _dbContext.OrderItems.AddRangeAsync(orderItems);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<List<OrderItem>> FindAll()
         {
             return await _dbContext.OrderItems
@@ -31,6 +37,28 @@ namespace Gustov.Infrastructure.Repositories
                 .Include(oi => oi.Category)
                 .Where(oi => oi.IsActive)
                 .OrderByDescending(oi => oi.CreatedAt)
+                .Select(oi => new OrderItem
+                {
+                    Id = oi.Id,
+                    SaleId = oi.SaleId,
+                    CategoryId = oi.CategoryId,
+                    Name = oi.Name,
+                    Quantity = oi.Quantity,
+                    UnitPrice = oi.UnitPrice,
+                    TotalPrice = oi.TotalPrice,
+                    IsActive = oi.IsActive,
+                    CreatedAt = oi.CreatedAt,
+                    UpdatedAt = oi.UpdatedAt,
+                    Sale = oi.Sale,
+                    Category = oi.Category
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<OrderItem>> FindBySale(int saleId)
+        {
+            return await _dbContext.OrderItems
+                .Where(oi => oi.SaleId == saleId)
                 .Select(oi => new OrderItem
                 {
                     Id = oi.Id,
@@ -94,15 +122,6 @@ namespace Gustov.Infrastructure.Repositories
                     Category = oi.Category
                 })
                 .ToListAsync();
-        }
-
-        public async Task<OrderItem> Update(OrderItem orderItem)
-        {
-            orderItem.UpdatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
-
-            _dbContext.OrderItems.Update(orderItem);
-            await _dbContext.SaveChangesAsync();
-            return orderItem;
         }
     }
 }

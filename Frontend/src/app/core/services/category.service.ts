@@ -1,9 +1,7 @@
-// src/app/core/services/category.service.ts
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { Category, CreateCategory, UpdateCategory } from '../../shared/models/category.model';
+import { Category, CreateCategory, UpdateCategory } from '../interfaces/category.interface';
 
 @Injectable({
   providedIn: 'root'
