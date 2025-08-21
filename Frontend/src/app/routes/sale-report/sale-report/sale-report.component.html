@@ -1,0 +1,283 @@
+<div class="report-container">
+  <!-- Header -->
+  <mat-card class="header-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>assessment</mat-icon>
+        Reporte de Ventas
+      </mat-card-title>
+      <mat-card-subtitle>
+        Gestión y análisis de todas las ventas realizadas
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="onRefreshReport()" [disabled]="isLoading">
+        <mat-icon>refresh</mat-icon>
+        Actualizar
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Cargando datos de ventas...</p>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!isLoading" class="content-container">
+    
+    <!-- Summary Statistics -->
+    <div class="summary-grid">
+      <mat-card class="summary-card">
+        <mat-card-content>
+          <div class="summary-item">
+            <mat-icon class="icon-sales">point_of_sale</mat-icon>
+            <div class="summary-text">
+              <h3>{{ totalSales }}</h3>
+              <p>Total de Ventas</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="summary-card">
+        <mat-card-content>
+          <div class="summary-item">
+            <mat-icon class="icon-revenue">payments</mat-icon>
+            <div class="summary-text">
+              <h3>{{ formatCurrency(totalRevenue) }}</h3>
+              <p>Ingresos Totales</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="summary-card">
+        <mat-card-content>
+          <div class="summary-item">
+            <mat-icon class="icon-average">trending_up</mat-icon>
+            <div class="summary-text">
+              <h3>{{ formatCurrency(averageSaleAmount) }}</h3>
+              <p>Promedio por Venta</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Filters -->
+    <mat-card class="filters-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>filter_list</mat-icon>
+          Filtros de Búsqueda
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="filters-grid">
+          <!-- Date Range -->
+          <div class="filter-group">
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha Desde</mat-label>
+              <input 
+                matInput 
+                [matDatepicker]="dateFromPicker"
+                [(ngModel)]="filters.dateFrom"
+                placeholder="dd/mm/yyyy"
+              />
+              <mat-datepicker-toggle matIconSuffix [for]="dateFromPicker"></mat-datepicker-toggle>
+              <mat-datepicker #dateFromPicker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha Hasta</mat-label>
+              <input 
+                matInput 
+                [matDatepicker]="dateToPicker"
+                [(ngModel)]="filters.dateTo"
+                placeholder="dd/mm/yyyy"
+              />
+              <mat-datepicker-toggle matIconSuffix [for]="dateToPicker"></mat-datepicker-toggle>
+              <mat-datepicker #dateToPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <!-- Amount Range -->
+          <div class="filter-group">
+            <mat-form-field appearance="outline">
+              <mat-label>Monto Mínimo</mat-label>
+              <input 
+                matInput 
+                type="number"
+                [(ngModel)]="filters.minAmount"
+                placeholder="0.00"
+                min="0"
+                step="0.01"
+              />
+              <span matTextPrefix>BOB </span>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Monto Máximo</mat-label>
+              <input 
+                matInput 
+                type="number"
+                [(ngModel)]="filters.maxAmount"
+                placeholder="0.00"
+                min="0"
+                step="0.01"
+              />
+              <span matTextPrefix>BOB </span>
+            </mat-form-field>
+          </div>
+
+          <!-- Search Text -->
+          <div class="filter-group">
+            <mat-form-field appearance="outline" class="search-field">
+              <mat-label>Buscar</mat-label>
+              <input 
+                matInput 
+                [(ngModel)]="filters.searchText"
+                placeholder="ID de venta o nombre de producto..."
+                (keyup.enter)="onSearchFilters()"
+              />
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      
+      <mat-card-actions class="filter-actions">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          (click)="onSearchFilters()"
+          class="search-btn"
+        >
+          <mat-icon>search</mat-icon>
+          Buscar
+        </button>
+
+        <button 
+          mat-stroked-button 
+          color="warn" 
+          (click)="onClearFilters()"
+          [disabled]="!hasActiveFilters"
+          class="clear-filters-btn"
+        >
+          <mat-icon>clear</mat-icon>
+          Limpiar Filtros
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- Sales Table -->
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>list</mat-icon>
+          Lista de Ventas
+          <mat-chip *ngIf="hasActiveFilters" class="filter-chip">
+            {{ filteredSales.length }} de {{ allSales.length }} ventas
+          </mat-chip>
+        </mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div *ngIf="!hasData" class="no-data">
+          <mat-icon>info</mat-icon>
+          <h3>No se encontraron ventas</h3>
+          <p *ngIf="hasActiveFilters">Intenta ajustar los filtros de búsqueda</p>
+          <p *ngIf="!hasActiveFilters">No hay ventas registradas en el sistema</p>
+        </div>
+
+        <div *ngIf="hasData" class="table-container">
+          <table mat-table [dataSource]="filteredSales" class="sales-table">
+            
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>ID</th>
+              <td mat-cell *matCellDef="let sale">
+                <span class="sale-id">#{{ sale.id }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef>Fecha y Hora</th>
+              <td mat-cell *matCellDef="let sale">
+                <div class="date-info">
+                  <span class="date">{{ formatDate(sale.createdAt) }}</span>
+                  <span class="time">{{ formatDateTime(sale.createdAt).split(',')[1] }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Items Column -->
+            <ng-container matColumnDef="items">
+              <th mat-header-cell *matHeaderCellDef>Productos</th>
+              <td mat-cell *matCellDef="let sale">
+                <mat-chip color="primary">{{ getTotalItems(sale) }} items</mat-chip>
+              </td>
+            </ng-container>
+
+            <!-- Subtotal Column -->
+            <ng-container matColumnDef="subtotal">
+              <th mat-header-cell *matHeaderCellDef>Subtotal</th>
+              <td mat-cell *matCellDef="let sale">{{ formatCurrency(sale.subTotal) }}</td>
+            </ng-container>
+
+            <!-- Tip Column -->
+            <ng-container matColumnDef="tip">
+              <th mat-header-cell *matHeaderCellDef>Propina</th>
+              <td mat-cell *matCellDef="let sale">
+                <span [class]="sale.tipAmount > 0 ? 'tip-amount' : 'no-tip'">
+                  {{ formatCurrency(sale.tipAmount) }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Total Column -->
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef>Total</th>
+              <td mat-cell *matCellDef="let sale">
+                <span class="total-amount">{{ formatCurrency(sale.total) }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Cash Column -->
+            <ng-container matColumnDef="cash">
+              <th mat-header-cell *matHeaderCellDef>Efectivo</th>
+              <td mat-cell *matCellDef="let sale">{{ formatCurrency(sale.cashRecieved) }}</td>
+            </ng-container>
+
+            <!-- Change Column -->
+            <ng-container matColumnDef="change">
+              <th mat-header-cell *matHeaderCellDef>Cambio</th>
+              <td mat-cell *matCellDef="let sale">{{ formatCurrency(sale.cashChange) }}</td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Acciones</th>
+              <td mat-cell *matCellDef="let sale">
+                <button 
+                  mat-icon-button 
+                  color="primary" 
+                  (click)="onViewSaleDetails(sale)"
+                  matTooltip="Ver detalles"
+                >
+                  <mat-icon>visibility</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

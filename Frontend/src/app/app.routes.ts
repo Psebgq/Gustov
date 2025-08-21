@@ -7,5 +7,6 @@ export const routes: Routes = [
         component: WelcomePageComponent
     },
     { path: 'menu', loadChildren: () => import('./routes/menu/menu.routes').then(m => m.routes) },
-    { path: 'sale', loadChildren: () => import('./routes/sale/sale.route').then(m => m.routes) }
+    { path: 'sale', loadChildren: () => import('./routes/sale/sale.route').then(m => m.routes) },
+    { path: 'sale-report', loadChildren: () => import('./routes/sale-report/sale-report.routes').then(m => m.routes) },
 ];

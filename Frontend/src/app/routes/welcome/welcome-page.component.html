@@ -1,4 +1,3 @@
-<!-- Contenido principal -->
 <div class="welcome-container">
   <mat-card class="welcome-card">
     <mat-card-header>
@@ -7,7 +6,7 @@
         {{ welcomeMessage }}
       </mat-card-title>
       <mat-card-subtitle>
-        Selecciona una opción para comenzar
+        Selecciona una opción para comenzar con la gestión del punto de venta
       </mat-card-subtitle>
     </mat-card-header>
 
@@ -17,13 +16,13 @@
         <mat-card class="option-card">
           <mat-card-content>
             <mat-icon class="option-icon">restaurant_menu</mat-icon>
-            <h3>Ver Menú</h3>
-            <p>Explora nuestro menú completo con todas las categorías y productos disponibles</p>
+            <h3>Gestión del Menú</h3>
+            <p>Administra el catálogo completo de productos, categorías y precios. Controla el inventario disponible para la venta.</p>
           </mat-card-content>
           <mat-card-actions>
             <button mat-raised-button color="primary" routerLink="/menu" (click)="navigateToMenu()">
-              <mat-icon>visibility</mat-icon>
-              Ver Menú
+              <mat-icon>restaurant_menu</mat-icon>
+              Acceder al Menú
             </button>
           </mat-card-actions>
         </mat-card>
@@ -31,17 +30,18 @@
         <!-- Opción Órdenes -->
         <mat-card class="option-card">
           <mat-card-content>
-            <mat-icon class="option-icon">receipt_long</mat-icon>
-            <h3>Ver Órdenes</h3>
-            <p>Consulta el historial de órdenes y ventas realizadas</p>
+            <mat-icon class="option-icon">assessment</mat-icon>
+            <h3>Reportes de Ventas</h3>
+            <p>Consulta el historial completo de ventas, genera reportes detallados y analiza el rendimiento del negocio.</p>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-raised-button color="warn" routerLink="/orders">
-              <mat-icon>list_alt</mat-icon>
-              Ver Órdenes
+            <button mat-raised-button color="warn" routerLink="/sale-report">
+              <mat-icon>analytics</mat-icon>
+              Ver Reportes
             </button>
           </mat-card-actions>
         </mat-card>
       </div>
     </mat-card-content>
   </mat-card>
+</div>

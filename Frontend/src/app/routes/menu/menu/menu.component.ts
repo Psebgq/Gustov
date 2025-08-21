@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { ToastrService } from 'ngx-toastr';
 
 import { CategorySectionComponent } from './category-section/category-section.component';
@@ -10,7 +11,6 @@ import { CategoryService } from '../../../core/services/category.service';
 import { Category } from '../../../core/interfaces/category.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductOptionComponent } from './product-option/product-option.component';
-import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   selector: 'app-menu',
@@ -20,9 +20,9 @@ import { MatButtonModule } from "@angular/material/button";
     MatCardModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    CategorySectionComponent,
-    MatButtonModule
-],
+    MatButtonModule,
+    CategorySectionComponent
+  ],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css'
 })
@@ -75,6 +75,10 @@ export class MenuComponent implements OnInit {
         this.refreshCategorySections();
       }
     });
+  }
+
+  onRefresh(): void {
+    this.loadCategories();
   }
 
   private refreshCategorySections(): void {

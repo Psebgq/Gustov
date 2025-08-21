@@ -1,5 +1,4 @@
 <div class="sale-view-container">
-  <!-- Header -->
   <mat-card class="header-card">
     <mat-card-header>
       <mat-card-title>
@@ -19,7 +18,6 @@
   </mat-card>
 
   <div class="content-container">
-    <!-- Products List -->
     <div class="products-section">
       <mat-card class="products-card">
         <mat-card-header>
@@ -45,7 +43,6 @@
       </mat-card>
     </div>
 
-    <!-- Summary Section -->
     <div class="summary-section">
       <mat-card class="summary-card">
         <mat-card-header>
@@ -58,7 +55,6 @@
             <span class="amount">{{ formattedSubtotal }}</span>
           </div>
           
-          <!-- Tip Amount Input -->
           <div class="input-row">
             <mat-form-field appearance="outline" class="tip-input">
               <mat-label>Propina (BOB)</mat-label>
@@ -84,7 +80,6 @@
           
           <mat-divider></mat-divider>
           
-          <!-- Cash Received Input -->
           <div class="input-row">
             <mat-form-field appearance="outline" class="cash-input">
               <mat-label>Efectivo Recibido (BOB)</mat-label>
@@ -105,6 +100,7 @@
             <span>Cambio:</span>
             <span class="amount" [class.negative]="cashChange < 0">{{ formattedCashChange }}</span>
           </div>
+          
         </mat-card-content>
         
         <mat-card-actions>
