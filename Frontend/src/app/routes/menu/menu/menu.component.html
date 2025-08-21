@@ -1,25 +1,28 @@
 <div class="menu-container">
-  <div class="menu-header" *ngIf="!isLoading && categories.length > 0">
-    <div class="menu-title-section">
-      <h1 class="menu-title">
+  <mat-card class="menu-header" *ngIf="!isLoading && categories.length > 0">
+    <mat-card-header>
+      <mat-card-title>
         <mat-icon class="menu-icon">restaurant_menu</mat-icon>
         Menú de Productos
-      </h1>
-      <p class="menu-subtitle">Gestiona el catálogo de productos por categorías</p>
-    </div>
-    
-    <div class="menu-actions">
+      </mat-card-title>
+      <mat-card-subtitle>
+        Gestiona el catálogo de productos por categorías
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions class="menu-actions">
       <button 
-        mat-icon-button 
+        mat-raised-button 
         color="primary" 
         class="add-product-fab"
         (click)="addProduct()"
         matTooltip="Añadir nuevo producto"
         matTooltipPosition="below">
         <mat-icon>add</mat-icon>
+        Añadir Producto
       </button>
-    </div>
-  </div>
+    </mat-card-actions>
+  </mat-card>
+
   <div *ngIf="isLoading" class="loading-container">
     <mat-spinner></mat-spinner>
     <p>Cargando categorías...</p>
@@ -37,13 +40,29 @@
       <mat-card-content>
         <mat-icon class="no-data-icon">restaurant</mat-icon>
         <h3>No hay categorías disponibles</h3>
-        <p>No se encontraron categorías disponibles en el menú.</p>
+        <p>No se encontraron categorías disponibles en el menú. Comienza agregando productos para crear tu catálogo.</p>
+        <div class="no-data-actions">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            class="add-first-product-button"
+            (click)="addProduct()">
+            <mat-icon>add</mat-icon>
+            Añadir Primer Producto
+          </button>
+          <button 
+            mat-stroked-button 
+            class="retry-button"
+            (click)="onRefresh()">
+            <mat-icon>refresh</mat-icon>
+            Actualizar
+          </button>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
-</div>
 
-<button 
+  <button 
     mat-fab 
     color="primary" 
     class="floating-add-button"
@@ -52,3 +71,4 @@
     matTooltip="Añadir producto">
     <mat-icon>add</mat-icon>
   </button>
+</div>

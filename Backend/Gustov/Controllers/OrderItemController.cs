@@ -1,4 +1,5 @@
 ﻿using Gustov.Application.Services;
+using Gustov.Domain.Entities;
 using Gustov.Infrastructure.DTOs;
 using Microsoft.AspNetCore.Mvc;
 

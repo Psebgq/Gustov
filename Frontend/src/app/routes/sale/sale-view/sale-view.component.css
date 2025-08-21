@@ -1,86 +1,126 @@
 .sale-view-container {
-  padding: 16px;
+  padding: 24px;
   max-width: 1400px;
   margin: 0 auto;
+  background: #fafafa;
+  min-height: 100vh;
 }
 
 .header-card {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
 }
 
 .header-card mat-card-header {
   display: flex;
   align-items: center;
-  gap: 8px;
+  padding: 24px 24px 16px 24px;
 }
 
 .header-card mat-card-title {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #1a1a1a;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-card mat-card-title mat-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  color: #2c5aa0;
 }
 
 .header-card mat-card-subtitle {
   margin-top: 8px;
   font-size: 16px;
   font-weight: 500;
+  color: #666666;
 }
 
 .header-card mat-card-actions {
-  margin: 16px 0 0 0;
-  padding: 0;
+  margin: 0;
+  padding: 16px 24px 24px 24px;
+  border-top: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+
+.header-card mat-card-actions button {
+  padding: 12px 24px;
+  font-weight: 500;
+  text-transform: none;
+  border-radius: 6px;
 }
 
 .content-container {
   display: grid;
   grid-template-columns: 1fr 400px;
-  gap: 24px;
+  gap: 32px;
   align-items: start;
 }
 
-/* Products Section */
 .products-section {
   min-height: 500px;
 }
 
 .products-card {
   height: fit-content;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .products-card mat-card-header {
-  margin-bottom: 16px;
+  margin-bottom: 0;
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .products-card mat-card-title {
   font-size: 20px;
   font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.products-card mat-card-content {
+  padding: 24px;
 }
 
 .empty-cart {
   text-align: center;
-  padding: 60px 20px;
-  color: #666;
+  padding: 80px 20px;
+  color: #999999;
 }
 
 .empty-cart mat-icon {
   font-size: 64px;
   width: 64px;
   height: 64px;
-  margin-bottom: 16px;
-  color: #ccc;
+  margin-bottom: 24px;
+  color: #cccccc;
 }
 
 .empty-cart h3 {
-  margin: 16px 0 8px 0;
+  margin: 16px 0 12px 0;
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 600;
+  color: #1a1a1a;
 }
 
 .empty-cart p {
   margin: 0;
   font-size: 16px;
   line-height: 1.5;
+  color: #666666;
 }
 
 .products-list {
@@ -89,29 +129,33 @@
   gap: 16px;
 }
 
-/* Summary Section */
 .summary-section {
   position: sticky;
   top: 24px;
 }
 
 .summary-card {
-  background: #f8f9fa;
-  border: 2px solid #e9ecef;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .summary-card mat-card-header {
-  margin-bottom: 20px;
+  margin-bottom: 0;
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .summary-card mat-card-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
-  color: #2c3e50;
+  color: #1a1a1a;
+  margin: 0;
 }
 
 .summary-card mat-card-content {
-  padding: 0 16px;
+  padding: 24px;
 }
 
 .summary-row {
@@ -120,11 +164,12 @@
   align-items: center;
   padding: 12px 0;
   font-size: 16px;
+  color: #333333;
 }
 
 .summary-row .amount {
   font-weight: 500;
-  color: #2c3e50;
+  color: #1a1a1a;
 }
 
 .summary-row .amount.negative {
@@ -132,7 +177,7 @@
 }
 
 .input-row {
-  margin: 16px 0;
+  margin: 20px 0;
 }
 
 .tip-input,
@@ -185,22 +230,24 @@
 
 .total-row {
   font-size: 18px;
-  color: #2c3e50;
-  border-top: 1px solid #dee2e6;
-  border-bottom: 1px solid #dee2e6;
-  margin: 8px 0;
+  color: #1a1a1a;
+  border-top: 2px solid #e0e0e0;
+  border-bottom: 2px solid #e0e0e0;
+  margin: 16px 0;
+  padding: 16px 0 !important;
 }
 
 .total-row .amount {
   font-size: 20px;
-  color: #27ae60;
+  color: #388e3c;
+  font-weight: 700;
 }
 
 .summary-card mat-card-actions {
-  margin-top: 24px;
-  padding: 16px;
-  background: #fff;
-  border-top: 1px solid #dee2e6;
+  margin: 0;
+  padding: 16px 24px 24px 24px;
+  border-top: 1px solid #f0f0f0;
+  background: #fafafa;
 }
 
 .summary-card mat-card-actions button {
@@ -208,6 +255,9 @@
   height: 48px;
   font-size: 16px;
   font-weight: 600;
+  padding: 12px 24px;
+  text-transform: none;
+  border-radius: 6px;
 }
 
 .summary-card mat-card-actions button .spinner {
@@ -219,28 +269,55 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .sale-view-container {
-    padding: 12px;
-  }
-
+@media (max-width: 1024px) {
   .content-container {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 24px;
   }
 
   .summary-section {
     position: static;
     order: -1;
   }
+}
+
+@media (max-width: 768px) {
+  .sale-view-container {
+    padding: 16px;
+  }
+
+  .content-container {
+    gap: 16px;
+  }
+
+  .header-card mat-card-header {
+    padding: 20px 20px 16px 20px;
+  }
 
   .header-card mat-card-title {
-    font-size: 18px;
+    font-size: 24px;
   }
 
   .header-card mat-card-subtitle {
     font-size: 14px;
+  }
+
+  .header-card mat-card-actions {
+    padding: 16px 20px 20px 20px;
+  }
+
+  .products-card mat-card-header,
+  .summary-card mat-card-header {
+    padding: 20px 20px 16px 20px;
+  }
+
+  .products-card mat-card-content,
+  .summary-card mat-card-content {
+    padding: 20px;
+  }
+
+  .summary-card mat-card-actions {
+    padding: 16px 20px 20px 20px;
   }
 
   .summary-row {
@@ -248,7 +325,7 @@
   }
 
   .input-row {
-    margin: 12px 0;
+    margin: 16px 0;
   }
 
   .tip-input ::ng-deep input,
@@ -272,7 +349,15 @@
 
 @media (max-width: 480px) {
   .sale-view-container {
-    padding: 8px;
+    padding: 12px;
+  }
+
+  .header-card mat-card-header {
+    padding: 16px 16px 12px 16px;
+  }
+
+  .header-card mat-card-actions {
+    padding: 12px 16px 16px 16px;
   }
 
   .header-card mat-card-actions button {
@@ -283,8 +368,22 @@
     gap: 12px;
   }
 
+  .products-card mat-card-header,
+  .summary-card mat-card-header {
+    padding: 16px 16px 12px 16px;
+  }
+
+  .products-card mat-card-content,
+  .summary-card mat-card-content {
+    padding: 16px;
+  }
+
+  .summary-card mat-card-actions {
+    padding: 12px 16px 16px 16px;
+  }
+
   .empty-cart {
-    padding: 40px 20px;
+    padding: 40px 16px;
   }
 
   .empty-cart mat-icon {

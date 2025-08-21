@@ -19,21 +19,19 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './welcome-page.component.css'
 })
 export class WelcomePageComponent {
-  welcomeMessage = '¡Bienvenido a nuestro sistema de punto de venta!';
+  welcomeMessage = 'Sistema de Punto de Venta';
   
   currentTime = new Date();
 
   constructor(
     private router: Router
-  ) {
-  }
+  ) {}
 
   navigateToMenu(): void {
     this.router.navigate(['/menu']);
   }
 
   navigateToPOS(): void {
-    // La navegación se maneja por el routerLink en el template
     console.log('Navegando al POS...');
   }
 }

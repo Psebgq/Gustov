@@ -28,6 +28,13 @@ namespace Gustov.Application.Services
             return orderItemsDto;
         }
 
+        public async Task<List<OrderItemDto>> FindBySale(int saleId)
+        {
+            var orderItems = await _orderItemRepository.FindBySale(saleId);
+            var orderItemsDto = OrderItemMapper.ToDto(orderItems);
+            return orderItemsDto;
+        }
+
         public async Task<OrderItemDto?> FindOne(int orderItemId)
         {
             _logger.LogInformation("Obteniendo item de orden con ID: {OrderItemId}", orderItemId);
